@@ -119,6 +119,12 @@ git push -u origin main
 7. Set `MONGO_URI` to your production MongoDB Atlas connection string.
 8. Set `CLIENT_ORIGIN` to the deployed Vercel frontend URL.
 
+For the current deployment:
+
+```env
+CLIENT_ORIGIN=https://happy-path-2nytsoa40-atejasya8-1627s-projects.vercel.app
+```
+
 ### Vercel Frontend
 
 1. Import the GitHub repository into Vercel.
@@ -126,4 +132,10 @@ git push -u origin main
 3. Build command: `npm run build`
 4. Output directory: `dist`
 5. Add `VITE_API_URL` with the Render backend URL plus `/api`.
+
+For the current deployment:
+
+```env
+VITE_API_URL=https://happy-path-5oso.onrender.com/api
+```
 

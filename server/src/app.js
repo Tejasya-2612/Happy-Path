@@ -10,10 +10,37 @@ import { notFound } from './middleware/notFound.js';
 
 export function createApp() {
   const app = express();
-  const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+  const allowedOrigins = new Set([
+    process.env.CLIENT_ORIGIN,
+    'https://happy-path.vercel.app',
+    'https://happy-path-2nytsoa40-atejasya8-1627s-projects.vercel.app',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173'
+  ].filter(Boolean));
+  const localDevOriginPattern = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/;
+  const vercelPreviewOriginPattern = /^https:\/\/happy-path-[a-z0-9-]+-atejasya8-1627s-projects\.vercel\.app$/;
+
+  function isAllowedOrigin(origin) {
+    return (
+      !origin ||
+      allowedOrigins.has(origin) ||
+      localDevOriginPattern.test(origin) ||
+      vercelPreviewOriginPattern.test(origin)
+    );
+  }
 
   app.use(helmet());
-  app.use(cors({ origin: clientOrigin, credentials: true }));
+  app.use(cors({
+    origin(origin, callback) {
+      if (isAllowedOrigin(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`CORS blocked request from ${origin}`));
+    },
+    credentials: true
+  }));
   app.use(express.json({ limit: '20kb' }));
   app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
   app.use(
@@ -25,7 +52,7 @@ export function createApp() {
     })
   );
 
-  app.get('/api/health', (_req, res) => {
+  app.get(['/', '/api/health'], (_req, res) => {
     res.status(200).json({ status: 'ok' });
   });
 
