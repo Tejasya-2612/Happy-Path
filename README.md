@@ -122,7 +122,7 @@ git push -u origin main
 For the current deployment:
 
 ```env
-CLIENT_ORIGIN=https://happy-path-2nytsoa40-atejasya8-1627s-projects.vercel.app
+CLIENT_ORIGIN=https://happy-path-ten.vercel.app
 ```
 
 ### Vercel Frontend

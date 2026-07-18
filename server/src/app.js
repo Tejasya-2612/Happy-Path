@@ -13,11 +13,13 @@ export function createApp() {
   const allowedOrigins = new Set([
     process.env.CLIENT_ORIGIN,
     'https://happy-path.vercel.app',
+    'https://happy-path-ten.vercel.app',
     'https://happy-path-2nytsoa40-atejasya8-1627s-projects.vercel.app',
     'http://localhost:5173',
     'http://127.0.0.1:5173'
   ].filter(Boolean));
   const localDevOriginPattern = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/;
+  const vercelProjectOriginPattern = /^https:\/\/happy-path(?:-[a-z0-9-]+)?\.vercel\.app$/;
   const vercelPreviewOriginPattern = /^https:\/\/happy-path-[a-z0-9-]+-atejasya8-1627s-projects\.vercel\.app$/;
 
   function isAllowedOrigin(origin) {
@@ -25,6 +27,7 @@ export function createApp() {
       !origin ||
       allowedOrigins.has(origin) ||
       localDevOriginPattern.test(origin) ||
+      vercelProjectOriginPattern.test(origin) ||
       vercelPreviewOriginPattern.test(origin)
     );
   }
