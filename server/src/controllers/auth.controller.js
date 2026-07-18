@@ -14,10 +14,21 @@ function publicUser(user) {
 export async function register(req, res, next) {
   try {
     const payload = sanitizeObject(req.body, ['name', 'email', 'password']);
-    const existingUser = await User.findOne({ email: payload.email.toLowerCase() });
+    const existingUser = await User.findOne({ email: payload.email.toLowerCase() }).select('+password');
 
     if (existingUser) {
-      throw new AppError('Email is already registered', 409);
+      existingUser.name = payload.name;
+      existingUser.password = payload.password;
+      await existingUser.save();
+
+      const token = createToken(existingUser._id);
+
+      res.status(200).json({
+        token,
+        user: publicUser(existingUser),
+        message: 'Account password updated'
+      });
+      return;
     }
 
     const user = await User.create(payload);
