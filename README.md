@@ -2,6 +2,12 @@
 
 Happy Path is a production-ready MERN tool lending library. It includes JWT authentication, protected CRUD, search, filtering, sorting, pagination, validation, sanitization, loading states, graceful error handling, and a responsive grayscale dashboard UI.
 
+## Deployment
+
+Frontend Link:https://happy-path-ten.vercel.app/
+
+Backend Link: https://happy-path-5oso.onrender.com/
+
 ## Features
 
 - Register, login, logout, and protected routes
@@ -139,3 +145,8 @@ For the current deployment:
 VITE_API_URL=https://happy-path-5oso.onrender.com/api
 ```
 
+Author: 
+
+A TEJASYA
+
+P/IL/26/NOIDA/M1299
